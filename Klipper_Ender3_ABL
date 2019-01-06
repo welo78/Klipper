@@ -96,10 +96,11 @@ max_accel: 3000
 max_z_velocity: 5
 max_z_accel: 100
 
+#gcode macro dump 
 [gcode_macro m205]
 gcode:
 
-#display lights up but no menus configured
+# full graphics or discount graphics EXP1 and EXP2 display type
 [display]
 lcd_type: st7920
 cs_pin: ar16
@@ -107,6 +108,7 @@ sclk_pin: ar23
 sid_pin: ar17
 encoder_pins: ^ar31, ^ar33
 click_pin: ^!ar35
+kill_pin: ^!ar41
 
 [homing_override]
 set_position_z: 5
