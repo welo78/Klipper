@@ -1,12 +1,3 @@
-# This file contains common pin mappings for RAMPS or MKS Gen 1.4
-
-[probe]
-pin: ^!ar18
-z_offset: -5
-x_offset: -50
-y_offset: 20
-speed: 2
-
 [stepper_x]
 step_pin: ar54
 dir_pin: !ar55
@@ -16,6 +7,7 @@ endstop_pin: ^ar3
 #endstop_pin: ^ar2
 position_endstop: 0
 position_max: 245
+position_min: 0
 homing_speed: 80
 
 [stepper_y]
@@ -27,6 +19,7 @@ endstop_pin: ^ar14
 #endstop_pin: ^ar15
 position_endstop: 0
 position_max: 240
+position_min: 0
 homing_speed: 80
 
 [stepper_z]
@@ -37,20 +30,20 @@ step_distance: .0025
 endstop_pin: probe:z_virtual_endstop
 position_min: -5
 #endstop_pin: ^ar18
-#position_endstop: 0.0
+#position_endstop: -0.6
 position_max: 250
-homing_speed: 5
+homing_speed: 3
 
 [extruder]
 max_extrude_only_distance: 100.0
 step_pin: ar26
 dir_pin: !ar28
 enable_pin: !ar24
-step_distance: 0.0094705938062317
+step_distance: 0.0097087378640777
 nozzle_diameter: 0.400
 filament_diameter: 1.750
-pressure_advance: 0.400
-pressure_advance_lookahead_time: 0.010
+pressure_advance: 0.700
+pressure_advance_lookahead_time: 0.1
 heater_pin: ar10
 sensor_type: EPCOS 100K B57560G104F
 sensor_pin: analog13
@@ -60,14 +53,6 @@ pid_Ki: 1.268
 pid_Kd: 100.974
 min_temp: 0
 max_temp: 250
-
-#[extruder1]
-#step_pin: ar36
-#dir_pin: ar34
-#enable_pin: !ar30
-#heater_pin: ar9
-#sensor_pin: analog15
-#...
 
 [heater_bed]
 heater_pin: ar8
@@ -90,13 +75,37 @@ pin_map: arduino
 [printer]
 kinematics: cartesian
 max_velocity: 300
-max_accel: 3000
+max_accel: 1000
+#max_accel_to_decel: 1000
 max_z_velocity: 5
-max_z_accel: 100
+max_z_accel: 50
+#square_corner_velocity: 2.0
 
 #gcode macro dump 
 [gcode_macro m205]
 gcode:
+
+[homing_override]
+set_position_z: 5
+axes: z
+gcode:
+ G28 Y0
+ G28 X0
+ G1 X160 Y110 F3600
+ G28 Z0
+
+[probe]
+pin: ^!ar18
+z_offset: 0.97
+x_offset: -50
+y_offset: 20
+speed: 3
+
+# Example bed_mesh config section
+[bed_mesh]
+min_point: 90,40
+max_point: 230,190
+probe_count: 3,3
 
 # full graphics or discount graphics EXP1 and EXP2 display type
 [display]
@@ -107,18 +116,3 @@ sid_pin: ar17
 encoder_pins: ^ar31, ^ar33
 click_pin: ^!ar35
 kill_pin: ^!ar41
-
-[homing_override]
-set_position_z: 5
-axes: z
-gcode:
- G28 Y0
- G28 X0
- G1 X160 Y70 F3600
- G28 Z0
-
-# Example bed_mesh config section
-[bed_mesh]
-min_point: 20,20
-max_point: 200,200
-probe_count: 4,4
